@@ -37,3 +37,16 @@ To delete a file
 2.	Find file and click on it.
 3.	Click on the garbage can.
 4.	Enter comment and commit
+
+
+Access Server from Server Explorer in Visual STudio
+1. Open Server Explorer (on top right of screen Quick Launch, type in Server Explorer then click it)
+2. Click Add Connection (right next to the refresh and x button)
+3. Data Source: Microsoft SQL Server (sqlClient)
+  Server Name: jetsetter.database.windows.net
+  Authentication: SQL server authentication
+  USerName: jetsetter
+  Password: JSProject123
+  Select database: JetSetterPractice
+4. Click OK
+5. Enjoy

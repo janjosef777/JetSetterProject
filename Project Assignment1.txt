@@ -1,0 +1,40 @@
+Assignment:
+
+Upload a copy of your project in a ready-to-run state with no errors to the dropbox. 
+
+If you are using database first include one copy of your SQL script in the root folder 
+where your source files exist so it too can be managed in the repository.
+
+Twitter Bootstrap
+
+Use Twitter Bootstrap. I recommend using the Twitter Bootstrap shell provided with the ASP.NET Core MVC web application project.									
+
+Security
+
+When you create your project add in the security login scaffolding on your first day. 	(5 marks)
+
+GitHub
+Before December 13 ensure that:
+•	Your project is managed on GitHub with the help of Visual Studio Team Explorer.
+•	All team members are added as collaborators.
+•	I am also added to your repository as a collaborator. You can use "pmcgeebcit".
+•	Each team member has checked in at least one change to GitHub through Visual Studio Team Explorer.
+
+Each team member is expected to show 2 Github commits on each of the two remaining phase 1 days. 
+Even if you don’t have much to commit, make sure you get practice with your team repository.													(5 marks)
+
+Branching Exercise 
+
+(Day 4 to be provided)									(5 marks)
+
+Limit Your Time
+
+Do not spend lots of time on this project after class hours.  Outside class focus on your passion project.
+
+Please remember:
+•	Commit your changes in frequently and get fresh builds from GitHub frequently.
+•	Start every new coding session with a fresh build.
+•	In addition to storing your code on github store it locally on your machine as a backup. 
+
+To do this delete the git folder inside your local project folder to remove it from GitHub. 
+Then place your project in a time stamped folder like 2018_1212_1352_myproj. Then zip it.

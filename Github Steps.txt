@@ -1,0 +1,39 @@
+Github Steps
+
+Download a Github project and use locally
+
+1.	Login to github and look for janjosef777/JetSetterProject
+2.	Clone or download – Open in visual studio
+3.	Right - Local Git Repositories – click clone button
+4.	Right – double click JetSetterProject.sln – twice ( that will move project to top )
+
+Update and Push a Change
+
+1.	Make change – press save
+2.	To just upload 1 page change: right click – commit
+3.	Enter a comment on change – Commit all
+4.	Press sync
+5.	Outgoing commits – push
+
+If you find another person has update you will need to Synch the latest
+1.	Click master – sync – and this will merge the latest with your change ( will update local and online repository )
+
+Add a regular document to GitHub
+
+1.	Login to github and look for janjosef777/JetSetterProject
+2.	Click upload files
+3.	Drag and drop file into input box
+4.	Enter a comment
+5.	Commit directly to the master
+6.	Commit changes
+
+To Download a file – ie instructions to use github
+1.	Login to github and look for janjosef777/JetSetterProject
+2.	Find file and click on it.
+3.	Click view raw – it will download to your download folder
+
+To delete a file
+1.	Login to github and look for janjosef777/JetSetterProject
+2.	Find file and click on it.
+3.	Click on the garbage can.
+4.	Enter comment and commit

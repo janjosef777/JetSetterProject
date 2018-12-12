@@ -16,5 +16,9 @@ namespace JetSetterProject.Controllers
         {
             return View();
         }
+        public IActionResult Jan()
+        {
+            return View();
+        }
     }
 }

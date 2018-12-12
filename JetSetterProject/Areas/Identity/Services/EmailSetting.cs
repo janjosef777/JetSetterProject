@@ -53,7 +53,9 @@ namespace JetSetterProject.Areas.Identity.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 await Task.FromResult(0);
+               
             }
         }
     }

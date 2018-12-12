@@ -12,5 +12,9 @@ namespace JetSetterProject.Controllers
         {
             return View();
         }
+        public IActionResult Lawrence()
+        {
+            return View();
+        }
     }
 }

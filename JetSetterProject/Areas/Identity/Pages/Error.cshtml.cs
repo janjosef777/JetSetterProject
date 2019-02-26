@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
-namespace JetSetterProject.Areas.Identity.Pages
+namespace jetsetterProj.Areas.Identity.Pages
 {
     [AllowAnonymous]
     public class ErrorModel : PageModel

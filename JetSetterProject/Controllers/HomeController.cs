@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using JetSetterProject.Models;
-using Microsoft.AspNetCore.Authorization;
+using jetsetterProj.Models;
 
-namespace JetSetterProject.Controllers
+namespace jetsetterProj.Controllers
 {
     public class HomeController : Controller
     {
@@ -15,7 +14,7 @@ namespace JetSetterProject.Controllers
         {
             return View();
         }
-        [Authorize]
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

@@ -1,6 +1,6 @@
 using System;
 
-namespace JetSetterProject.Models
+namespace jetsetterProj.Models
 {
     public class ErrorViewModel
     {

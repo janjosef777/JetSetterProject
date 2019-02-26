@@ -3,8 +3,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:58470",
-      "sslPort": 44368
+      "applicationUrl": "http://localhost:55994"
     }
   },
   "profiles": {
@@ -15,7 +14,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "JetSetterProject": {
+    "jetsetterProj": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5000",

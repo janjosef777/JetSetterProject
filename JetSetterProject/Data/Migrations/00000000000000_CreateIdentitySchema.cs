@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace JetSetterProject.Data.Migrations
+namespace jetsetterProj.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

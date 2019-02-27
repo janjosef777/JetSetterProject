@@ -42,8 +42,13 @@ namespace jetsetterProj
 
             // Swith this over to use custom application user which is 
             // connected to your diary table.
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //   services.AddDefaultIdentity<ApplicationUser>()
+            //      .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+             .AddDefaultUI().AddDefaultTokenProviders();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -19,7 +19,7 @@ namespace JetSetterProject.Models
         // Pointing to parent.
         public virtual ApplicationUser ApplicationUser { get; set; }
        
-        public ICollection<Diary> Diary { get; set; }
+        public virtual Diary Diary { get; set; }
 
     }
 }

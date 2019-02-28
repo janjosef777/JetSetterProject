@@ -19,6 +19,6 @@ namespace JetSetterProject.Models
         // Navigation properties.
         // Child.
 
-        public ICollection<Vendor> Vendor { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

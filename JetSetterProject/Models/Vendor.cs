@@ -31,6 +31,7 @@ namespace JetSetterProject.Models
 
         // Pointing to parent.
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ICollection<Ad> Ads { get; set; }
 
     }
 }

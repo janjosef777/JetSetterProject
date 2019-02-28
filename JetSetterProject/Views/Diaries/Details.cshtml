@@ -1,0 +1,72 @@
+﻿@model jetsetterProj.Models.Diary
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Diary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActualDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateStamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateStamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tips)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tips)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DiaryEntry)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DiaryEntry)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Private)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Private)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DiaryID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

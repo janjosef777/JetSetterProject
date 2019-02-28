@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JetSetterProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         ApplicationDbContext _context;

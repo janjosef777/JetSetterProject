@@ -12,5 +12,6 @@ namespace jetsetterProj.Data
     {
         public virtual ICollection<Diary> Diaries { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
+        
     }
 }

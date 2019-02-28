@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace jetsetterProj.Data.Migrations
+namespace JetSetterProject.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +51,7 @@ namespace jetsetterProj.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +72,7 @@ namespace jetsetterProj.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -93,8 +92,8 @@ namespace jetsetterProj.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -138,8 +137,8 @@ namespace jetsetterProj.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -153,6 +152,126 @@ namespace jetsetterProj.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Diaries",
+                columns: table => new
+                {
+                    DiaryID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserID = table.Column<string>(nullable: true),
+                    ActualDate = table.Column<DateTime>(nullable: false),
+                    DateStamp = table.Column<DateTime>(nullable: false),
+                    Tips = table.Column<string>(nullable: true),
+                    DiaryEntry = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Private = table.Column<bool>(nullable: false),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diaries", x => x.DiaryID);
+                    table.ForeignKey(
+                        name: "FK_Diaries_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vendors",
+                columns: table => new
+                {
+                    VendorID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Province = table.Column<string>(nullable: true),
+                    Monthly = table.Column<bool>(nullable: false),
+                    Priority = table.Column<bool>(nullable: false),
+                    Website = table.Column<string>(nullable: true),
+                    PostalCode = table.Column<string>(nullable: true),
+                    AdPosted = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendors", x => x.VendorID);
+                    table.ForeignKey(
+                        name: "FK_Vendors_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    RatingID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DiaryID = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    Rate = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.RatingID);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Diaries_DiaryID",
+                        column: x => x.DiaryID,
+                        principalTable: "Diaries",
+                        principalColumn: "DiaryID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ratings_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ads",
+                columns: table => new
+                {
+                    AdID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    VendorID = table.Column<int>(nullable: false),
+                    Published = table.Column<bool>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ExpiryDate = table.Column<DateTime>(nullable: false),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ads", x => x.AdID);
+                    table.ForeignKey(
+                        name: "FK_Ads_Vendors_VendorID",
+                        column: x => x.VendorID,
+                        principalTable: "Vendors",
+                        principalColumn: "VendorID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Vendors",
+                columns: new[] { "VendorID", "AdPosted", "Address", "ApplicationUserId", "City", "Monthly", "Name", "PostalCode", "Priority", "Province", "Website" },
+                values: new object[] { 1, 2, "Apple Street", null, "Cupertino", true, "Apple", "V7E 3E4", true, "California", "www.Apple.com" });
+
+            migrationBuilder.InsertData(
+                table: "Ads",
+                columns: new[] { "AdID", "Description", "ExpiryDate", "Image", "Published", "VendorID" },
+                values: new object[] { 1, "Summer Add", new DateTime(2020, 5, 15, 13, 45, 0, 0, DateTimeKind.Unspecified), "", true, 1 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ads_VendorID",
+                table: "Ads",
+                column: "VendorID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -162,8 +281,7 @@ namespace jetsetterProj.Data.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -189,12 +307,34 @@ namespace jetsetterProj.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Diaries_UserID",
+                table: "Diaries",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_DiaryID",
+                table: "Ratings",
+                column: "DiaryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_UserID",
+                table: "Ratings",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vendors_ApplicationUserId",
+                table: "Vendors",
+                column: "ApplicationUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Ads");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -211,7 +351,16 @@ namespace jetsetterProj.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Ratings");
+
+            migrationBuilder.DropTable(
+                name: "Vendors");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Diaries");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

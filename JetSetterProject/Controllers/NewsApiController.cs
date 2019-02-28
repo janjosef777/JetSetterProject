@@ -19,7 +19,7 @@ namespace JetSetterProject.Controllers
           "apiKey=772941f406474aa497dc367c0a27288f";
 
         [HttpGet]
-        public dynamic GetAll()
+        public NewsVM GetAll()
         {
             WebClient webClient = new WebClient();
             NewsVM result = JsonConvert.DeserializeObject<NewsVM>(webClient.DownloadString(url));

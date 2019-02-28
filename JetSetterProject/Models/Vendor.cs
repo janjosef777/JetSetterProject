@@ -5,23 +5,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace jetsetterProj.Models
+namespace JetSetterProject.Models
 {
-
-    public class Diary
+    public class Vendor
     {
         [Key]
-        public int DiaryID { get; set; }
-        public string UserId { get; set; }
-        public DateTime ActualDate { get; set; }
-        public DateTime DateStamp { get; set; }
-        public string Tips { get; set; }
-        public string DiaryEntry { get; set; }
-        public string Country { get; set; }
+        public int VendorID { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
         public string City { get; set; }
-        public int RatingID { get; set; }
-        public bool Private { get; set; }
-        public string Image { get; set; }
+        public string Province { get; set; }
+        public bool Monthly { get; set; }
+        public bool Priority { get; set; }
+        public string Website { get; set; }
+        public string PostalCode { get; set; }
+        [Range(0,5)]
+        public int AdPosted { get; set; }
 
         // Navigation properties.
         // Child.        
@@ -32,5 +31,6 @@ namespace jetsetterProj.Models
 
         // Pointing to parent.
         public virtual ApplicationUser ApplicationUser { get; set; }
+
     }
 }

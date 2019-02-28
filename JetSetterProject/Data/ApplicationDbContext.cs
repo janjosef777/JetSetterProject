@@ -53,17 +53,30 @@ namespace jetsetterProj.Data
               .HasForeignKey(fk => new { fk.DiaryID })
               .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
+
+            Seed(modelBuilder);
         }
+
+        void Seed(ModelBuilder builder)
+        {
+            // Seed parents first and then children since child FK's point to parents.
+
+            builder.Entity<Vendor>().HasData(
+                new { VendorID = 1, Name = "Apple", Address = "Apple Street", City = "Cupertino", Province = "California",
+                      Monthly = true, Priority = true, Description = "Best Vendor", Website = "www.Apple.com",
+                      PostalCode = "V7E 3E4", AdPosted = 2 }
+            );
+            builder.Entity<Ad>().HasData(
+                new { AdID = 1, VendorID = 1, Published = true, Description = "Summer Add", ExpiryDate = new DateTime(2020, 5, 15, 13, 45, 0), Image = ""}
+            );
+        
+            // https://docs.microsoft.com/en-us/ef/core/modeling/data-seeding
+        }
+
 
     }
 }
 
-//public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-//{
-//    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-//        : base(options)
-//    {
-//    }
-//}
+
 
 

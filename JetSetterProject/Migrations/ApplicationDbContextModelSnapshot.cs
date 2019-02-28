@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jetsetterProj.Data;
 
-namespace jetsetterProj.Data.Migrations
+namespace JetSetterProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -85,17 +85,97 @@ namespace jetsetterProj.Data.Migrations
 
                     b.Property<bool>("Private");
 
-                    b.Property<int>("RatingID");
-
                     b.Property<string>("Tips");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserID");
 
                     b.HasKey("DiaryID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Diaries");
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Ad", b =>
+                {
+                    b.Property<int>("AdID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("ExpiryDate");
+
+                    b.Property<string>("Image");
+
+                    b.Property<bool>("Published");
+
+                    b.Property<int>("VendorID");
+
+                    b.HasKey("AdID");
+
+                    b.HasIndex("VendorID");
+
+                    b.ToTable("Ads");
+
+                    b.HasData(
+                        new { AdID = 1, Description = "Summer Add", ExpiryDate = new DateTime(2020, 5, 15, 13, 45, 0, 0, DateTimeKind.Unspecified), Image = "", Published = true, VendorID = 1 }
+                    );
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Rating", b =>
+                {
+                    b.Property<int>("RatingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DiaryID");
+
+                    b.Property<bool>("Rate");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("RatingID");
+
+                    b.HasIndex("DiaryID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Vendor", b =>
+                {
+                    b.Property<int>("VendorID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AdPosted");
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("City");
+
+                    b.Property<bool>("Monthly");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<bool>("Priority");
+
+                    b.Property<string>("Province");
+
+                    b.Property<string>("Website");
+
+                    b.HasKey("VendorID");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Vendors");
+
+                    b.HasData(
+                        new { VendorID = 1, AdPosted = 2, Address = "Apple Street", City = "Cupertino", Monthly = true, Name = "Apple", PostalCode = "V7E 3E4", Priority = true, Province = "California", Website = "www.Apple.com" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -161,11 +241,9 @@ namespace jetsetterProj.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -196,11 +274,9 @@ namespace jetsetterProj.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -213,8 +289,36 @@ namespace jetsetterProj.Data.Migrations
                 {
                     b.HasOne("jetsetterProj.Data.ApplicationUser", "ApplicationUser")
                         .WithMany("Diaries")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Ad", b =>
+                {
+                    b.HasOne("JetSetterProject.Models.Vendor", "Vendor")
+                        .WithMany("Ads")
+                        .HasForeignKey("VendorID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Rating", b =>
+                {
+                    b.HasOne("jetsetterProj.Models.Diary", "Diary")
+                        .WithMany("Ratings")
+                        .HasForeignKey("DiaryID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("jetsetterProj.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("JetSetterProject.Models.Vendor", b =>
+                {
+                    b.HasOne("jetsetterProj.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

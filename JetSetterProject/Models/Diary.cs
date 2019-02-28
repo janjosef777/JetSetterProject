@@ -1,4 +1,5 @@
 ﻿using jetsetterProj.Data;
+using JetSetterProject.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,6 @@ namespace jetsetterProj.Models
         public string DiaryEntry { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public int RatingID { get; set; }
         public bool Private { get; set; }
         public string Image { get; set; }
 

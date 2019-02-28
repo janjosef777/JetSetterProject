@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "News";
+}
+@section styles{
+    <link rel="Stylesheet" href="@Href("~/css/card.css")" />
+}
+<h2>Trending Now</h2>
+
+<div class='containerCard'>
+    <div class='blog-posts'>
+    </div>
+</div>
+        @section Scripts
+            {
+            <script>
+                $(document).ready(function () {
+                    class DateString {
+                        constructor(Day, Month) {
+                            this.Day = Day;
+                            this.Month = Month;
+                        }
+                    }
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/NewsApi',
+                        dataType: 'json',
+                        success: function (data) {
+                            var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+                            for (var i = 0, j = data.articles.length; i < j; i++) {
+                                var date = new DateString(new Date(data.articles[i].publishedAt).getDay(), month[new Date(data.articles[i].publishedAt).getMonth()]);
+                                if (i == 0) {
+                                    buildFeatured(data.articles[i].urlToImage, data.articles[i].title, data.articles[i].description, date, data.articles[i].source, data.articles[i].url, data.articles[i].author);
+                                }
+                                else {
+                                    buildNormal(data.articles[i].urlToImage, data.articles[i].title, data.articles[i].description, date, data.articles[i].source, data.articles[i].url, data.articles[i].author, appendEl);
+                                }
+                                if (i == 0 || i % 2 == 0) {
+                                    var appendEl = $("<div class='row cf'></div>").appendTo(".blog-posts");
+                                }
+                            }
+                        }
+                    });
+                    function buildFeatured(imgUrl, title, body, date, source, urlToArticle, author) {
+                        $("<div class='post featured'>" +
+                            "<a href='" +urlToArticle+ "'>" +
+                                "<div class='image' style='background-image: url(" +imgUrl+ ")'>" +
+                                    "<div class='time'>" +
+                                        "<div class='date'>" + date.Day + "</div>" +
+                                        "<div class='month'>" +date.Month + "</div>" +
+                                    "</div>" +
+                                "</div>" +
+                                "<div class='content'>" +
+                                    "<h1>" +title+ "</h1>" +
+                                    "<p>" +body+ "</p>"+
+                                    "<div class='meta'>" +
+                                        "<div class='icon-comment'>Author: " + author + "</div>" +
+                                        "<ul class='tags'>" +
+                                            "<li>" +source.id+ "</li>" +
+                                            "<li>" +source.name+" </li>" +
+                                        "</ul>" +
+                                    "</div>" +
+                                "</div>" +
+                            "</a>" +
+                        "</div>"
+                        ).appendTo(".blog-posts");
+                    }
+                    function buildNormal(imgUrl, title, body, date, source, urlToArticle, author, appendItem) {
+                        $("<div class='post'>" +
+                                "<a href='" + urlToArticle + "'>" +
+                                    "<div class='image' style='background-image: url(" + imgUrl + ")'>" +
+                                        "<div class='time'>" +
+                                            "<div class='date'>" + date.Day + "</div>" +
+                                                  "<div class='month'>" + date.Month + "</div>" +
+                                                    "</div>" +
+                                                        "</div>" +
+                                            "<div class='content'>" +
+                                            "<h1>" + title + "</h1>" +
+                                            "<p>" + body + "</p>" +
+                                            "<div class='meta'>" +
+                                                "<div class='icon-comment'>" + author + "</div>" +
+                                                    "<ul class='tags'>" +
+                                                        "<li>" + source.id + "</li>" +
+                                                        "<li>" + source.name + " </li>" +
+                                                    "</ul>" +
+                                                "</div>" +
+                                            "</div>" +
+                                "</a>" +
+                            "</div>"
+                        ).appendTo(appendItem);
+                    }
+                });
+            </script>
+        }

@@ -32,7 +32,7 @@ namespace jetsetterProj.Data
             modelBuilder.Entity<Diary>()
                 .HasOne(au => au.ApplicationUser) // Parent
                 .WithMany(i => i.Diaries) // Child
-                .HasForeignKey(fk => new { fk.UserId })
+                .HasForeignKey(fk => new { fk.UserID })
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
             modelBuilder.Entity<Ad>()

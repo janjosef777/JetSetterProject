@@ -13,7 +13,7 @@ namespace jetsetterProj.Models
     {
         [Key]
         public int DiaryID { get; set; }
-        public string UserId { get; set; }
+        public string UserID { get; set; }
         public DateTime ActualDate { get; set; }
         public DateTime DateStamp { get; set; }
         public string Tips { get; set; }

@@ -13,7 +13,7 @@ namespace JetSetterProject.Models
         [Key]
         public int RatingID { get; set; }
         public int DiaryID { get; set; }
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public bool Rate { get; set; }
 
         // Pointing to parent.

@@ -10,7 +10,7 @@ namespace JetSetterProject.Models
     {
         [Key]
         public int AdID { get; set; }
-        public string VendorID { get; set; }
+        public int VendorID { get; set; }
         public bool Published { get; set; }
         public string Description { get; set; }
         public DateTime ExpiryDate { get; set; }

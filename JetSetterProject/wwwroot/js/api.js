@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
 
+    var url = '/api/NewsApi/';
+    var country;
+    var pageInt;
+
     $("<div class='row'>" +
         "<div class='col-xs-6 col-md-3'><button type='button' id='btn' value='cad' class='btn btn-info btn-lg btn-block'>Get Canadian Articles</button></div>" +
         "<div class='col-xs-6 col-md-3'><button type='button' id='btn' value='usa' class='btn btn-info btn-lg btn-block'>Get USA Articles</button></div>" +
@@ -7,19 +11,22 @@
     ).appendTo(".newsOptions");
 
 
-    $('.btn').on('click', function (e) {
-        console.log($(this).attr("value"));
-        var country = $(this).attr("value");
-        $('.btn').each(function () {
-            $('.btn').removeClass('active');
+    $('.btn-info').on('click', function (e) {
+        var checkCountry = $(this).attr("value");
+        $('.btn-info').each(function () {
+            $('.btn-info').removeClass('active');
         })
-        if (country == "cad") {
+        if (checkCountry == "cad") {
             $(this).addClass('active');
-            newsAPI("ca");
+            country = "ca";
+            pageInt = 1;
+            newsAPI(country, pageInt);
         }
-        else if (country == "usa") {
+        else if (checkCountry == "usa") {
             $(this).addClass('active');
-            newsAPI("us");
+            country = "us";
+            pageInt = 1;
+            newsAPI(country, pageInt);
         }
 
     });
@@ -41,14 +48,16 @@
             this.Month = Month;
         }
     }
-    function newsAPI(country) {
+    function newsAPI(country, pageInt) {
         $(".post featured").remove();
         $(".post").remove();
+        $(".btn-default").remove();
         $.ajax({
             type: 'GET',
-            url: '/api/NewsApi/' + country,
+            url: url + country + '/' + pageInt,
             dataType: 'json',
             success: function (data) {
+                var totalResults = data.totalResults;
                 var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                 for (var i = 0, j = data.articles.length; i < j; i++) {
@@ -64,6 +73,15 @@
                     }
                     if (i == 0 || i % 2 == 0) {
                         var appendEl = $("<div class='row cf'></div>").appendTo(".blog-posts");
+                    }
+                    if (totalResults > 0) {
+                        console.log(totalResults);
+                        totalResults = totalResults - 10 > 0 ? totalResults - 10 : 0;
+                        $("<button type='button' id='pageId' value=" + (i + 1) + " class='btn btn-default btn-lg'>" + (i + 1) + "</button></div>"
+                            + "</div >").appendTo(".containerCard");
+                        if (i == pageInt-1) {
+                            $('.btn[value=' + pageInt +']').addClass('active');
+                        }
                     }
                 }
             }
@@ -116,5 +134,10 @@
                 "</div>"
             ).appendTo(appendItem);
         }
+
     }
+    $('.containerCard').on('click', 'button', function(){
+        pageInt = $(this).attr("value");
+        newsAPI(country, pageInt);
+    });
 });

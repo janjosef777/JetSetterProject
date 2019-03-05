@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace JetSetterProject.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles = "Admin,Traveler")]
     public class DiariesController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JetSetterProject.Models;
 using jetsetterProj.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JetSetterProject.Controllers
 {
+    [Authorize(Roles = "Admin,Vendor")]
+
     public class VendorsController : Controller
     {
         private readonly ApplicationDbContext _context;

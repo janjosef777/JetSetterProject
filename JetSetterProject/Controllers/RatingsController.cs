@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace JetSetterProject.Controllers
 {
     [Authorize(Roles = "Admin")]
+    //controller
     public class RatingsController : Controller
     {
         private readonly ApplicationDbContext _context;

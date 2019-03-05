@@ -4,51 +4,79 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<div class="container-fluid">
+    <h2 class="text-center">Create</h2>
 
-<h4>Ad</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="VendorID" class="control-label"></label>
-                <select asp-for="VendorID" class ="form-control" asp-items="ViewBag.VendorID"></select>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Published" /> @Html.DisplayNameFor(model => model.Published)
-                    </label>
+    <h4 class="text-center">Ad</h4>
+
+
+    <div class="row text-center">
+        <div class="col-md-4 col-md-offset-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Published" /> @Html.DisplayNameFor(model => model.Published)
+                        </label>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExpiryDate" class="control-label"></label>
+                    <input asp-for="ExpiryDate" class="form-control" />
+                    <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+
+                @using (Html.BeginForm("Index", "Ads", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <h3> Upload Image</h3>
+
+                    <input type="file" name="file" value="Browse" class="form-control-file" />
+                    <br />
+
+                    <input type="submit" value="Upload" class="btn btn-primary" />
+                }
+
+                @if (ViewBag.UploadSuccess == true)
+                {
+                    <span>Upload Completed Successfully</span>
+                }
+
+                <br />
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" class="form-control" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
 <div>
-    <a asp-action="Index">Back to List</a>
+
+    <img src="~/images/passport-icon.png" alt="image1" class="rounded">
+    <img src="~/images/passport-icon.png" alt="image2" class="rounded">
+    <img src="~/images/passport-icon.png" alt="image3" class="rounded">
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+
+
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

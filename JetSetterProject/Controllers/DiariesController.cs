@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using jetsetterProj.Data;
 using jetsetterProj.Models;
 using Microsoft.AspNetCore.Authorization;
+using HttpPostedFileHelper;
 
 namespace JetSetterProject.Controllers
+//controller
 {
 
     [Authorize(Roles = "Admin,Traveler")]
@@ -72,6 +72,7 @@ namespace JetSetterProject.Controllers
             return View(diary);
         }
 
+
         // GET: Diaries/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,6 +89,7 @@ namespace JetSetterProject.Controllers
             ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", diary.UserID);
             return View(diary);
         }
+
 
         // POST: Diaries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -159,5 +161,6 @@ namespace JetSetterProject.Controllers
         {
             return _context.Diaries.Any(e => e.DiaryID == id);
         }
+
     }
 }

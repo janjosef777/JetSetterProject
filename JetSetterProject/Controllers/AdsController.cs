@@ -10,6 +10,7 @@ using jetsetterProj.Data;
 using Microsoft.AspNetCore.Authorization;
 
 namespace JetSetterProject.Controllers
+    //controller
 {
     [Authorize(Roles = "Admin, Vendor")]
     public class AdsController : Controller

@@ -10,8 +10,21 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Email" class="control-label">Email</label>
+                <input type="text" name="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Password" class="control-label">Password</label>
+                <input type="text" name="Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="ConfirmPass" class="control-label">Confirm Password</label>
+                <input type="text" name="ConfirmPass" class="form-control" />
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -35,14 +48,14 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Monthly" /> @Html.DisplayNameFor(model => model.Monthly)
+                        <input asp-for="Monthly" /> @Html.DisplayNameFor(model => model.Monthly) ($4.99)
                     </label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Priority" /> @Html.DisplayNameFor(model => model.Priority)
+                        <input asp-for="Priority" /> @Html.DisplayNameFor(model => model.Priority) (+$3.99)
                     </label>
                 </div>
             </div>

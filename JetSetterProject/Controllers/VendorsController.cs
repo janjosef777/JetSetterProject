@@ -7,22 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JetSetterProject.Models;
 using jetsetterProj.Data;
-
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using jetsetterProj.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 namespace JetSetterProject.Controllers
 {
     public class VendorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VendorsController(ApplicationDbContext context)
+        public VendorsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Vendors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vendors.ToListAsync());
+            var applicationDbContext = _context.Vendors.Include(v => v.ApplicationUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Vendors/Details/5
@@ -34,6 +48,7 @@ namespace JetSetterProject.Controllers
             }
 
             var vendor = await _context.Vendors
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.VendorID == id);
             if (vendor == null)
             {
@@ -46,6 +61,7 @@ namespace JetSetterProject.Controllers
         // GET: Vendors/Create
         public IActionResult Create()
         {
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
 
@@ -54,13 +70,24 @@ namespace JetSetterProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VendorID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
+        public async Task<IActionResult> Create(string Email, string Password, string ConfirmPass, [Bind("VendorID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
         {
+            if (Password != ConfirmPass)
+            {
+                return View(vendor);
+            }
+            var user = new ApplicationUser { UserName = vendor.Name, Email = Email };
+            var result = await _userManager.CreateAsync(user, Password);
+            if (result.Succeeded){
+                var userID = user.Id;
+                vendor.UserID = userID;
+            }
             if (ModelState.IsValid)
             {
+                
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Ads");
             }
             return View(vendor);
         }
@@ -78,6 +105,7 @@ namespace JetSetterProject.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", vendor.UserID);
             return View(vendor);
         }
 
@@ -86,7 +114,7 @@ namespace JetSetterProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VendorID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
+        public async Task<IActionResult> Edit(int id, [Bind("VendorID,UserID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
         {
             if (id != vendor.VendorID)
             {
@@ -113,6 +141,7 @@ namespace JetSetterProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", vendor.UserID);
             return View(vendor);
         }
 
@@ -125,6 +154,7 @@ namespace JetSetterProject.Controllers
             }
 
             var vendor = await _context.Vendors
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.VendorID == id);
             if (vendor == null)
             {

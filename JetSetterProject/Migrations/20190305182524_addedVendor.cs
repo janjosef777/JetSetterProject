@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JetSetterProject.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class addedVendor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -185,6 +185,7 @@ namespace JetSetterProject.Migrations
                 {
                     VendorID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    UserID = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -193,15 +194,14 @@ namespace JetSetterProject.Migrations
                     Priority = table.Column<bool>(nullable: false),
                     Website = table.Column<string>(nullable: true),
                     PostalCode = table.Column<string>(nullable: true),
-                    AdPosted = table.Column<int>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    AdPosted = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vendors", x => x.VendorID);
                     table.ForeignKey(
-                        name: "FK_Vendors_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Vendors_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -259,8 +259,8 @@ namespace JetSetterProject.Migrations
 
             migrationBuilder.InsertData(
                 table: "Vendors",
-                columns: new[] { "VendorID", "AdPosted", "Address", "ApplicationUserId", "City", "Monthly", "Name", "PostalCode", "Priority", "Province", "Website" },
-                values: new object[] { 1, 2, "Apple Street", null, "Cupertino", true, "Apple", "V7E 3E4", true, "California", "www.Apple.com" });
+                columns: new[] { "VendorID", "AdPosted", "Address", "City", "Monthly", "Name", "PostalCode", "Priority", "Province", "UserID", "Website" },
+                values: new object[] { 1, 2, "Apple Street", "Cupertino", true, "Apple", "V7E 3E4", true, "California", null, "www.Apple.com" });
 
             migrationBuilder.InsertData(
                 table: "Ads",
@@ -325,9 +325,9 @@ namespace JetSetterProject.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_ApplicationUserId",
+                name: "IX_Vendors_UserID",
                 table: "Vendors",
-                column: "ApplicationUserId");
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

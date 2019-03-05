@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "News";
+}
+@section styles{
+    <link rel="Stylesheet" href="@Href("~/css/card.css")" />
+}
+<h2>Trending Now</h2>
+
+<div class='containerCard'>
+    <div class='blog-posts'>
+    </div>
+</div>
+@section Scripts
+    {
+    <script type="text/javascript" src="@Url.Content("~/js/api.js")"></script>
+}

@@ -38,13 +38,13 @@
             this.Title = Title;
             this.Author = Author != null ? Author : "No Author";
             this.Source = Source;
-            this.Description = Description;
+            this.Description = Description != null ? Description : "Read more...";
             this.URL = URL;
         }
     }
         class DateItem {
         constructor(Day, Month) {
-            this.Day = Day;
+            this.Day = Day != 0 ? Day : 'N/A';
             this.Month = Month;
         }
     }
@@ -66,16 +66,16 @@
                         new Date(data.articles[i].publishedAt).getDay(), month[new Date(data.articles[i].publishedAt).getMonth()], data.articles[i].url);
 
                     if (i == 0) {
+                        console.log("I: " + i + "J: " + j);
                         buildFeatured(article.ImageURL, article.Title, article.Description, article.Date, article.Source, article.URL, article.Author);
                     }
-                    else {
+                    else if (i > 0) {
                         buildNormal(article.ImageURL, article.Title, article.Description, article.Date, article.Source, article.URL, article.Author, appendEl);
                     }
                     if (i == 0 || i % 2 == 0) {
                         var appendEl = $("<div class='row cf'></div>").appendTo(".blog-posts");
                     }
                     if (totalResults > 0) {
-                        console.log(totalResults);
                         totalResults = totalResults - 10 > 0 ? totalResults - 10 : 0;
                         $("<button type='button' id='pageId' value=" + (i + 1) + " class='btn btn-default btn-lg'>" + (i + 1) + "</button></div>"
                             + "</div >").appendTo(".containerCard");
@@ -101,8 +101,8 @@
                 "<div class='meta'>" +
                 "<div class='icon-comment'>Author: " + author + "</div>" +
                 "<ul class='tags'>" +
-                "<li>" + (source.id != null ? source.id : "No Source") + "</li>" +
-                "<li>" + (source.name != null ? source.name : "No Source") + " </li>" +
+                "<li>" + (source.id != null ? source.id : "No ID") + "</li>" +
+                "<li>" + (source.name != null ? source.name : "No Name") + " </li>" +
                 "</ul>" +
                 "</div>" +
                 "</div>" +

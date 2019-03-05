@@ -24,8 +24,10 @@
             var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             for (var i = 0, j = data.articles.length; i < j; i++) {
+
                 var article = new ArticleItem(data.articles[i].urlToImage, data.articles[i].title, data.articles[i].author, data.articles[i].source, data.articles[i].description,
                     new Date(data.articles[i].publishedAt).getDay(), month[new Date(data.articles[i].publishedAt).getMonth()], data.articles[i].url);
+
                 if (i == 0) {
                     buildFeatured(article.ImageURL, article.Title, article.Description, article.Date, article.Source, article.URL, article.Author);
                 }

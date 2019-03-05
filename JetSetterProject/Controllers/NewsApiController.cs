@@ -14,10 +14,8 @@ namespace JetSetterProject.Controllers
     [ApiController]
     public class NewsApiController : ControllerBase
     {
-        private readonly string url = "https://newsapi.org/v2/everything?" +
-          "q=Apple&" +
-          "from=2019-03-05&" +
-          "sortBy=popularity&" +
+        private readonly string url = "https://newsapi.org/v2/top-headlines?" +
+          "country=us&" +
           "apiKey=772941f406474aa497dc367c0a27288f";
 
         [HttpGet]

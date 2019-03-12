@@ -19,20 +19,25 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using JetSetterProject.Repositories;
+
 namespace JetSetterProject.Controllers
 {
     public class VendorsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IServiceProvider _serviceProvider;
 
-        public VendorsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public VendorsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IServiceProvider serviceProvider)
         {
             _userManager = userManager;
             _context = context;
+            _serviceProvider = serviceProvider;
         }
 
         // GET: Vendors
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Vendors.Include(v => v.ApplicationUser);
@@ -40,6 +45,7 @@ namespace JetSetterProject.Controllers
         }
 
         // GET: Vendors/Details/5
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,7 +67,6 @@ namespace JetSetterProject.Controllers
         // GET: Vendors/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
 
@@ -72,27 +77,33 @@ namespace JetSetterProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string Email, string Password, string ConfirmPass, [Bind("VendorID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
         {
+            UserRoleRepo userRoleRepo = new UserRoleRepo(_serviceProvider);
+
+         
             if (Password != ConfirmPass)
             {
                 return View(vendor);
             }
-            var user = new ApplicationUser { UserName = vendor.Name, Email = Email };
+            var user = new ApplicationUser { UserName = Email, Email = Email };
             var result = await _userManager.CreateAsync(user, Password);
             if (result.Succeeded){
                 var userID = user.Id;
                 vendor.UserID = userID;
+                var addUR = await userRoleRepo.AddUserRole(user.Email,"Vendor");
+                                                         
             }
             if (ModelState.IsValid)
             {
                 
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Ads");
+                return RedirectToAction("Details", new { id = vendor.VendorID } );
             }
             return View(vendor);
         }
 
         // GET: Vendors/Edit/5
+        [Authorize(Roles="Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +125,7 @@ namespace JetSetterProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int id, [Bind("VendorID,UserID,Name,Address,City,Province,Monthly,Priority,Website,PostalCode,AdPosted")] Vendor vendor)
         {
             if (id != vendor.VendorID)
@@ -139,13 +151,14 @@ namespace JetSetterProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = vendor.VendorID });
             }
             ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", vendor.UserID);
             return View(vendor);
         }
 
         // GET: Vendors/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -167,6 +180,7 @@ namespace JetSetterProject.Controllers
         // POST: Vendors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vendor = await _context.Vendors.FindAsync(id);

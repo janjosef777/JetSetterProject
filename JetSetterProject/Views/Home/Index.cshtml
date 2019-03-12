@@ -2,6 +2,16 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section head{
+    <style type="text/css">
+        body {
+            background-image: url('../../wwwroot/images/Passport-Background1.jpg');
+            margin: 0;
+        }
+    </style>
+}
+
+
 <div class="container">
     <br />
     <br />
@@ -9,7 +19,4 @@
         <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success  btn-lg">I am a traveler</a>
         <a asp-area="" asp-controller="Vendors" asp-action="Create" class="btn btn-danger  btn-lg">I am a vendor</a>
     </div>
-   
-   
-
 </div>

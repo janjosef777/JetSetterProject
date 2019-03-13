@@ -1,8 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    @RenderSection("head", required: false)
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - jetsetterProj</title>
@@ -17,8 +15,9 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @RenderSection("Styles", false)
 </head>
-<body background=" ">
+<body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -32,13 +31,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Traveller"))
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Diary" asp-action="Index">Diaries</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Vendor"))
-                    {
-                        <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
+                        <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -49,7 +45,6 @@
                                 User-Roles
                             </a>
                         </li>
-                        <li><a asp-area="" asp-controller="Vendors" asp-action="Index">Vendors</a></li>
                     }
 
                 </ul>

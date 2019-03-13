@@ -15,6 +15,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @RenderSection("Styles", false)
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -31,7 +32,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
+                    }
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="Role" asp-action="Index">Roles</a></li>

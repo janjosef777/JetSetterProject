@@ -34,6 +34,14 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    @if (User.IsInRole("Traveler"))
+                    {
+                    <li><a asp-area="" asp-controller="Diaries" asp-action="Index">Diary</a></li>
+                    }
+                    @if (User.IsInRole("Vendor,Admin"))
+                    {
+                    <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
+                    }
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>

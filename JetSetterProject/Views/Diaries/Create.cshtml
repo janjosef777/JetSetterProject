@@ -2,43 +2,59 @@
 @{
     ViewData["Title"] = "Create";
 }
+
 <h2>New Diary</h2>
 <hr />
 <div class="row">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" style="background-color: grey no-repeat center center fixed;  background-size: cover;">
         <div class="container">
             <h1 class="display-4">New Travel</h1>
         </div>
     </div>
+
     <form asp-action="Create">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Country">Country</label>
-                <input asp-for="Country" class="form-control" placeholder="Country">
+        <div class="row">
+            <div class="form-group col-xs-4">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-xs-4">
                 <label asp-for="City">City</label>
                 <input asp-for="City" class="form-control" placeholder="City">
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio" checked>Public</label>
-                <label><input type="radio" name="optradio">Private</label>
+            <div class="form-group col-xs-4">
+                <label asp-for="DateStamp">Date</label>
+                <input asp-for="DateStamp" class="form-control" placeholder="Date">
+                <span asp-validation-for="DateStamp" class="text-danger"></span>
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="Image">Image URL</label>
+            <input asp-for="Image" class="form-control" placeholder="Image URL">
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" checked>Public</label>
+            <label><input type="radio" name="optradio">Private</label>
+        </div>
+
         <div class="form-group">
             <label asp-for="DiaryEntry">Diary</label>
-            <textarea type="text" class="form-control" rows="6" placeholder="Diary"></textarea>
+            <textarea asp-for="DiaryEntry" type="text" class="form-control" rows="6" placeholder="Diary"></textarea>
         </div>
         <div class="form-group">
             <label asp-for="Tips">Tips</label>
-            <textarea type="text" class="form-control" rows="3" placeholder="Tips"></textarea>
+            <textarea asp-for="Tips" type="text" class="form-control" rows="3" placeholder="Tips"></textarea>
         </div>
+
 
         <button type="submit" class="btn btn-primary">Add Travel</button>
     </form>
 </div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

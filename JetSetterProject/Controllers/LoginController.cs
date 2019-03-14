@@ -38,7 +38,7 @@ namespace JetSetterProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(SignInVM thisModel)
+        public ActionResult Login(SignInVM thisModel)
         {
             ViewBag.LoginMessage = "";
 
@@ -46,12 +46,12 @@ namespace JetSetterProject.Controllers
             // *ALWAYS* perform server side validation.
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
+                var result = _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
+                if (result.Result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                else if (result.IsLockedOut)
+                else if (result.Result.IsLockedOut)
                 {
                     ViewBag.LoginMessage = "Login attempt locked out.";
                     return View("Index", thisModel);
@@ -66,39 +66,31 @@ namespace JetSetterProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SignInVM thisModel)
+        public ActionResult Create(SignInVM thisModel)
         {
+            ViewBag.ErrorMessage = "";
 
             var user = new ApplicationUser { UserName = thisModel.RegisterVM.Email, Email = thisModel.RegisterVM.Email };
-
+            var result = _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
             if (ModelState.IsValid)
             {
-                var result = await _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
-                if (result.Succeeded)
+                if (result.Result.Succeeded)
                 {
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(thisModel.RegisterVM.Email, "Confirm your email",
+                    _emailSender.SendEmailAsync(thisModel.RegisterVM.Email, "Confirm your email",
                          $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    // here we assign the new user the "Traveler" role 
-                    await _userManager.AddToRoleAsync(user, "Traveler");
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
-                var errorList = new List<string>();
-                foreach(var errors in result.Errors)
-                {
-                    errorList.Add(errors.Description);
-                }
-                ViewBag.ErrorMessage = errorList;
+                ViewBag.ErrorMessage = "This user already exists.";
                 return View("Index", thisModel);
             }
             else

@@ -66,31 +66,39 @@ namespace JetSetterProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(SignInVM thisModel)
+        public async Task<IActionResult> Create(SignInVM thisModel)
         {
-            ViewBag.ErrorMessage = "";
 
             var user = new ApplicationUser { UserName = thisModel.RegisterVM.Email, Email = thisModel.RegisterVM.Email };
-            var result = _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
+
             if (ModelState.IsValid)
             {
-                if (result.Result.Succeeded)
+                var result = await _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
+                if (result.Succeeded)
                 {
 
-                    var code = _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    _emailSender.SendEmailAsync(thisModel.RegisterVM.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(thisModel.RegisterVM.Email, "Confirm your email",
                          $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    _signInManager.SignInAsync(user, isPersistent: false);
+                    // here we assign the new user the "Traveler" role 
+                    await _userManager.AddToRoleAsync(user, "Traveler");
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
-                ViewBag.ErrorMessage = "This user already exists.";
+                var errorList = new List<string>();
+                foreach (var errors in result.Errors)
+                {
+                    errorList.Add(errors.Description);
+                }
+                ViewBag.ErrorMessage = errorList;
                 return View("Index", thisModel);
             }
             else

@@ -38,7 +38,7 @@ namespace JetSetterProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(SignInVM thisModel)
+        public async Task<IActionResult> Login(SignInVM thisModel)
         {
             ViewBag.LoginMessage = "";
 
@@ -46,12 +46,12 @@ namespace JetSetterProject.Controllers
             // *ALWAYS* perform server side validation.
             if (ModelState.IsValid)
             {
-                var result = _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
-                if (result.Result.Succeeded)
+                var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                else if (result.Result.IsLockedOut)
+                else if (result.IsLockedOut)
                 {
                     ViewBag.LoginMessage = "Login attempt locked out.";
                     return View("Index", thisModel);

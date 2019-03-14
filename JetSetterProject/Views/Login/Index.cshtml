@@ -11,8 +11,14 @@
 
     <div class="col-md-4">
         <h4>Register</h4>
-        @ViewBag.ErrorMessage
-        <hr />
+        <br />
+        @if (ViewBag.ErrorMessage != null)
+        {
+            @foreach (var item in ViewBag.ErrorMessage)
+            {
+                <p>@item</p>
+            }
+        }
         @using (Html.BeginForm("Create", "Login"))
         {
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -33,10 +39,10 @@
             </div>
             <button type="submit" class="btn btn-default">Register</button>
         }
-        </div>
-    <div class="col-md-6 col-md-offset-2">
+    </div>
+    <div class="col-md-4 col-md-offset-2">
         <h4>Login</h4>
-        <hr />
+        <br />
         @ViewBag.LoginMessage
         @using (Html.BeginForm("Login", "Login"))
         {

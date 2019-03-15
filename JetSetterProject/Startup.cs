@@ -13,6 +13,8 @@ using jetsetterProj.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using JetSetterProject.Models;
 
 namespace jetsetterProj
 {
@@ -45,6 +47,8 @@ namespace jetsetterProj
             // connected to your diary table.
             //   services.AddDefaultIdentity<ApplicationUser>()
             //      .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("Authentication:EmailSettings"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);

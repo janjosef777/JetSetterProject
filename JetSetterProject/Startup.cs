@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using JetSetterProject.Models;
+using JetSetterProject.Areas.Identity.Services;
 
 namespace jetsetterProj
 {

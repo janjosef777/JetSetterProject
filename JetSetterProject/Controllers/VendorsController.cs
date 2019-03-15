@@ -7,22 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JetSetterProject.Models;
 using jetsetterProj.Data;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using jetsetterProj.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using JetSetterProject.Repositories;
 
 namespace JetSetterProject.Controllers
 {
+    [Authorize(Roles = "Admin,Vendor")]
+
     public class VendorsController : Controller
     {
         private readonly ApplicationDbContext _context;

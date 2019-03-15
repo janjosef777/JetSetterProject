@@ -11,7 +11,8 @@ using HttpPostedFileHelper;
 namespace JetSetterProject.Controllers
 //controller
 {
-    [Authorize]
+
+    [Authorize(Roles = "Admin,Traveler")]
     public class DiariesController : Controller
     {
         private readonly ApplicationDbContext _context;

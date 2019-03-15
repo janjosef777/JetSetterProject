@@ -46,7 +46,12 @@ namespace jetsetterProj.Data
               .WithMany(i => i.Ratings) // Child
               .HasForeignKey(fk => new { fk.UserID })
               .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+            modelBuilder.Entity<Vendor>()
+             .HasOne(au => au.ApplicationUser) // Parent
+             .WithMany(i => i.Vendors) // Child
+             .HasForeignKey(fk => new { fk.UserID })
 
+             .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
             modelBuilder.Entity<Rating>()
               .HasOne(au => au.Diary) // Parent
               .WithMany(i => i.Ratings) // Child

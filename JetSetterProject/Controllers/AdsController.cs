@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace JetSetterProject.Controllers
     //controller
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Vendor")]
     public class AdsController : Controller
     {
         private readonly ApplicationDbContext _context;

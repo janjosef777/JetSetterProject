@@ -151,8 +151,6 @@ namespace JetSetterProject.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("City");
 
                     b.Property<bool>("Monthly");
@@ -165,11 +163,13 @@ namespace JetSetterProject.Migrations
 
                     b.Property<string>("Province");
 
+                    b.Property<string>("UserID");
+
                     b.Property<string>("Website");
 
                     b.HasKey("VendorID");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Vendors");
 
@@ -317,8 +317,9 @@ namespace JetSetterProject.Migrations
             modelBuilder.Entity("JetSetterProject.Models.Vendor", b =>
                 {
                     b.HasOne("jetsetterProj.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
+                        .WithMany("Vendors")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

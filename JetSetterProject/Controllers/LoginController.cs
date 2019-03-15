@@ -53,6 +53,12 @@ namespace JetSetterProject.Controllers
             // *ALWAYS* perform server side validation.
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(thisModel.LoginVM.Email);
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    ViewBag.Email = thisModel.LoginVM.Email;
+                    return View("Create", thisModel);
+                }
                 var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -98,8 +104,9 @@ namespace JetSetterProject.Controllers
                     // here we assign the new user the "Traveler" role 
                     await _userManager.AddToRoleAsync(user, "Traveller");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    ViewBag.Email = thisModel.RegisterVM.Email;
+                    return View("Create", thisModel);
                 }
                 var errorList = new List<string>();
                 foreach (var errors in result.Errors)

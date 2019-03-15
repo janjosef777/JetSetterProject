@@ -9,7 +9,9 @@ using JetSetterProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace JetSetterProject.Controllers
 {
@@ -19,27 +21,32 @@ namespace JetSetterProject.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        IConfiguration _configuration;
 
         public LoginController(ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _context = context;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
+            ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(SignInVM thisModel)
         {
+            System.Threading.Thread.Sleep(2000);
             ViewBag.LoginMessage = "";
 
             // ModelState.IsValid performs server side validation.
@@ -65,10 +72,11 @@ namespace JetSetterProject.Controllers
             return View("Index", thisModel);
         }
 
+        [ValidateRecaptcha]
         [HttpPost]
         public async Task<IActionResult> Create(SignInVM thisModel)
         {
-
+            System.Threading.Thread.Sleep(2000);
             var user = new ApplicationUser { UserName = thisModel.RegisterVM.Email, Email = thisModel.RegisterVM.Email };
 
             if (ModelState.IsValid)
@@ -88,7 +96,7 @@ namespace JetSetterProject.Controllers
                          $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     // here we assign the new user the "Traveler" role 
-                    await _userManager.AddToRoleAsync(user, "Traveler");
+                    await _userManager.AddToRoleAsync(user, "Traveller");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
@@ -99,12 +107,13 @@ namespace JetSetterProject.Controllers
                     errorList.Add(errors.Description);
                 }
                 ViewBag.ErrorMessage = errorList;
+                // Reset the site key if there is an error.
+                ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
                 return View("Index", thisModel);
             }
             else
-                ViewBag.ErrorMessage = "This entry is invalid.";
-            // return view with errors
-            return View(thisModel);
+                ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
+            return View("Index", thisModel);
         }
 
     }

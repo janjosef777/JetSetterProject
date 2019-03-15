@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using jetsetterProj.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace jetsetterProj
 {
@@ -45,9 +46,25 @@ namespace jetsetterProj
             //   services.AddDefaultIdentity<ApplicationUser>()
             //      .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.MaxFailedAccessAttempts = 3; // Lock after 3 consec failed logins
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+            })
              .AddEntityFrameworkStores<ApplicationDbContext>()
              .AddDefaultUI().AddDefaultTokenProviders();
+
+            services.AddRecaptcha(new RecaptchaOptions
+            {
+                SiteKey = Configuration["Authentication:Recaptcha:SiteKey"],
+                SecretKey = Configuration["Authentication:Recaptcha:SecretKey"]
+            });
+
+
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];

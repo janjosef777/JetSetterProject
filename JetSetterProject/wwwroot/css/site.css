@@ -3,7 +3,6 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url("../images/Passport-Background1.jpg");
 }
 
 /* Wrapping element */
@@ -35,4 +34,8 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+/* Jumbotron */
+.jumbotron jumbotron-fluid {
+    background-image: url('/images/San_Francisco,_California._June_2017_cropped.jpg')
 }

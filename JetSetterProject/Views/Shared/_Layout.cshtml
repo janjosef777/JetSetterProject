@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @RenderSection("head", required: false)
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - jetsetterProj</title>
@@ -43,6 +45,10 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Vendor"))
+                    {
+                        <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -95,3 +101,5 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+

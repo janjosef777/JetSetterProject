@@ -22,6 +22,10 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label asp-for="VendorID" class="control-label"></label>
+                    <select asp-for="VendorID" class="form-control" asp-items="ViewBag.VendorID"></select>
+                </div>
+                <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
@@ -36,19 +40,6 @@
                     <input asp-for="Image" class="form-control" placeholder="Please enter Image Description" />
                     <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
-
-                @using (Html.BeginForm("Index", "Ads", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <h3> Upload Image</h3>
-
-                    <input type="file" name="file" value="Browse" class="form-control-file" />
-                    <input type="submit" value="Upload" class="btn btn-primary" />
-                }
-
-                @if (ViewBag.UploadSuccess == true)
-                {
-                    <span>Upload Completed Successfully</span>
-                }
 
                 <br />
                 <div class="form-group">

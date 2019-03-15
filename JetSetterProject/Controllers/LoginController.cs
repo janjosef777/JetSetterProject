@@ -53,12 +53,6 @@ namespace JetSetterProject.Controllers
             // *ALWAYS* perform server side validation.
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(thisModel.LoginVM.Email);
-                if (!await _userManager.IsEmailConfirmedAsync(user))
-                {
-                    ViewBag.Email = thisModel.LoginVM.Email;
-                    return View("Create", thisModel);
-                }
                 var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -67,6 +61,11 @@ namespace JetSetterProject.Controllers
                 else if (result.IsLockedOut)
                 {
                     ViewBag.LoginMessage = "Login attempt locked out.";
+                    return View("Index", thisModel);
+                }
+                else if (result.IsNotAllowed)
+                {
+                    ViewBag.LoginMessage = "Please confirm your email before logging in.";
                     return View("Index", thisModel);
                 }
                 ViewBag.LoginMessage = "Invalid user name or password.";
@@ -93,7 +92,7 @@ namespace JetSetterProject.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
+                        "Confirm/ConfirmEmail",
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
@@ -104,7 +103,7 @@ namespace JetSetterProject.Controllers
                     // here we assign the new user the "Traveler" role 
                     await _userManager.AddToRoleAsync(user, "Traveller");
 
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     ViewBag.Email = thisModel.RegisterVM.Email;
                     return View("Create", thisModel);
                 }

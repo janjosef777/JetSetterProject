@@ -50,6 +50,7 @@ namespace jetsetterProj
             //      .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<EmailSettings>(Configuration.GetSection("Authentication:EmailSettings"));
+            services.AddTransient<IEmailSender, EmailService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);

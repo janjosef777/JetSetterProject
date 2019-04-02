@@ -17,7 +17,7 @@ namespace JetSetterProject.Data
             serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var UserManager    = 
             serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        string[] roleNames = { "Admin", "Vendor", "Traveller" };
+        string[] roleNames = { "Admin", "Vendor", "Traveler" };
 
         IdentityResult roleResult;
         foreach (var roleName in roleNames) {

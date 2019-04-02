@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - jetsetterProj</title>
+    <title>@ViewData["Title"] - JetSetter</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -29,13 +29,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">jetsetterProj</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="AllDiaryAds" asp-action="Index" class="navbar-brand">Home</a>
+                }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                <a class="navbar-brand">JetSetter</a>
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("Traveler"))
+                    @if (User.IsInRole("Traveller"))
                     {
-                        <li><a asp-area="" asp-controller="Diaries" asp-action="Index">Diary</a></li>
+                        <li><a asp-area="" asp-controller="Diaries" asp-action="Index"> MyDiary</a></li>
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Create">New Entry</a></li>
                     }
                     @if (User.IsInRole("Vendor"))
@@ -47,14 +54,11 @@
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
 
                     }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Vendor"))
-                    {
-                        <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
-                    }
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Index">Diary</a></li>
                         <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
+                        <li><a asp-area="" asp-controller="Vendors" asp-action="Index">Vendors</a></li>
                         <li><a asp-area="" asp-controller="Role" asp-action="Index">Roles</a></li>
                         <li> <a asp-area="" asp-controller="UserRole" asp-action="Index"> User-Roles</a></li>
                     }

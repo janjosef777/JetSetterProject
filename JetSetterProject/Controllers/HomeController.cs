@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using jetsetterProj.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace jetsetterProj.Controllers
 {

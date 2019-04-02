@@ -60,7 +60,7 @@ namespace JetSetterProject.Controllers
                 var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "AllDiaryAds");
                 }
                 else if (result.IsLockedOut)
                 {

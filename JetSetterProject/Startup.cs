@@ -38,6 +38,21 @@ namespace jetsetterProj
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Call this before AddMvc()
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
+
+
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
@@ -100,6 +115,7 @@ namespace jetsetterProj
 
            
             app.UseStaticFiles();
+            app.UseCors("AllowAll");
             app.UseCookiePolicy();
 
             app.UseAuthentication();

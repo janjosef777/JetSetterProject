@@ -5,67 +5,59 @@
 }
 
 <h2>Edit</h2>
-
-<h4>Diary</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="jumbotron jumbotron-fluid" style="color: white; background-size: cover; background-position: center; background-image: url(@Html.DisplayFor(model => model.Image)">
+        <div class="container" style="background-color: rgba(255, 0, 0, 0.15); border-radius: 25px;">
+            <h1 class="display-4">@Html.DisplayFor(model => model.Country)</h1>
+            <h3>@Html.DisplayFor(model => model.City)</h3>
+        </div>
+    </div>
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DiaryID" />
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
-                <span asp-validation-for="UserID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ActualDate" class="control-label"></label>
-                <input asp-for="ActualDate" class="form-control" />
-                <span asp-validation-for="ActualDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateStamp" class="control-label"></label>
-                <input asp-for="DateStamp" class="form-control" />
-                <span asp-validation-for="DateStamp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tips" class="control-label"></label>
-                <input asp-for="Tips" class="form-control" />
-                <span asp-validation-for="Tips" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiaryEntry" class="control-label"></label>
-                <input asp-for="DiaryEntry" class="form-control" />
-                <span asp-validation-for="DiaryEntry" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Private" /> @Html.DisplayNameFor(model => model.Private)
-                    </label>
+            <div class="row">
+                <div class="form-group col-xs-4">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="form-group col-xs-4">
+                    <label asp-for="City">City</label>
+                    <input asp-for="City" class="form-control" placeholder="City">
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group col-xs-4">
+                    <label asp-for="DateStamp">Date</label>
+                    <input asp-for="DateStamp" class="form-control" placeholder="Date">
+                    <span asp-validation-for="DateStamp" class="text-danger"></span>
                 </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <label asp-for="Image">Image URL</label>
+                <input asp-for="Image" class="form-control" placeholder="Image URL">
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" checked>Public</label>
+                <label><input type="radio" name="optradio">Private</label>
+            </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <label asp-for="DiaryEntry">Diary</label>
+                <textarea asp-for="DiaryEntry" type="text" class="form-control" rows="6" placeholder="Diary"></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tips">Tips</label>
+                <textarea asp-for="Tips" type="text" class="form-control" rows="3" placeholder="Tips"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
 
 <div>
     <a asp-action="Index">Back to List</a>

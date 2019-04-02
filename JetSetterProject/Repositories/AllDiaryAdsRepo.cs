@@ -19,10 +19,10 @@ namespace JetSetterProject.Repositories
 
         public IEnumerable<AllDiaryAdsVM> GetAllDiary()
         {
-            IEnumerable<AllDiaryAdsVM> esList =
+            IEnumerable<AllDiaryAdsVM> dList =
                 (
                 from d in db.Diaries
-                from a in db.Ads
+            
                 where d.Private == false
                 select new AllDiaryAdsVM()
                 {
@@ -32,11 +32,22 @@ namespace JetSetterProject.Repositories
                     Country = d.Country,
                     City = d.City,
 
-                    AdID = a.AdID,
+                });
+            return dList;
+        }
+        public IEnumerable<AllDiaryAdsVM> GetAllAds()
+        {
+            IEnumerable<AllDiaryAdsVM> aList =
+                (
+                from a in db.Ads
+                where a.Published == true
+                select new AllDiaryAdsVM()
+                {
+                     AdID = a.AdID,
                     AdImage = a.Image
 
                 });
-            return esList;
+            return aList;
         }
     }
 }

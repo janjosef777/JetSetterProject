@@ -1,22 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-@section head{
-    <style type="text/css">
-        body {
-            background-image: url('../../wwwroot/images/Passport-Background1.jpg');
-            margin: 0;
-        }
-    </style>
-}
-
-
-<div class="container">
-    <br />
-    <br />
-    <div class="text-center">
-        <a asp-area="" asp-controller="Login" asp-action="Index"  class="btn btn-success  btn-lg">I am a traveler</a>
-        <a asp-area="" asp-controller="Vendors" asp-action="Create" class="btn btn-danger  btn-lg">I am a vendor</a>
+<body style="background-image:url(/images/travelJournal.jpg); background-repeat:no-repeat; background-size: cover">
+    <div class="container" style="padding-bottom:60%; max-height:100%; overflow:hidden; ">
+        <br />
+        <br />
+        <div class="text-center">
+            <a asp-area="" asp-controller="Login" asp-action="Index" class="btn btn-success  btn-lg">I am a traveler</a>
+            <a asp-area="" asp-controller="Vendors" asp-action="Create" class="btn btn-danger  btn-lg">I am a vendor</a>
+        </div>
     </div>
-</div>
+</body>

@@ -7,6 +7,8 @@ using jetsetterProj.Data;
 using jetsetterProj.Models;
 using Microsoft.AspNetCore.Authorization;
 using HttpPostedFileHelper;
+using JetSetterProject.Repositories;
+using System.Security.Claims;
 
 namespace JetSetterProject.Controllers
 //controller
@@ -23,10 +25,17 @@ namespace JetSetterProject.Controllers
         }
 
         // GET: Diaries
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Diaries.Include(d => d.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
+            DiariesRepo diRepo = new DiariesRepo(_context);
+
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var es = diRepo.GetAll(userId);
+            var esList = es.ToList();
+            return View(es);
+
+           // var applicationDbContext = _context.Diaries.Include(d => d.ApplicationUser);
+           // return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Diaries/Details/5
@@ -51,7 +60,8 @@ namespace JetSetterProject.Controllers
         // GET: Diaries/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserID"] = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View();
         }
 

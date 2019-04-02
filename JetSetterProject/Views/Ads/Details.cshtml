@@ -23,7 +23,7 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ExpiryDate)
+            Expiry Date
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ExpiryDate)
@@ -34,15 +34,11 @@
         <dd>
             @Html.DisplayFor(model => model.Image)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Vendor)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Vendor.VendorID)
-        </dd>
+        
+       
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.AdID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.AdID">Edit</a> |
+    <a asp-action="Index" >Back to List</a>
 </div>

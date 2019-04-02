@@ -40,7 +40,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("Traveller"))
+                    @if (User.IsInRole("Traveler"))
                     {
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Index"> MyDiary</a></li>
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Create">New Entry</a></li>

@@ -102,7 +102,7 @@ namespace JetSetterProject.Controllers
                          $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     // here we assign the new user the "Traveler" role 
-                    await _userManager.AddToRoleAsync(user, "Traveller");
+                    await _userManager.AddToRoleAsync(user, "Traveler");
 
                     ViewBag.Email = thisModel.RegisterVM.Email;
                     return View("Create", thisModel);

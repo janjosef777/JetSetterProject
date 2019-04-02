@@ -36,7 +36,7 @@
                     @if (User.IsInRole("Traveler"))
                     {
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Index">Diary</a></li>
-                        <li><a asp-area="" asp-controller="DIaries" asp-action="Create">New Entry</a></li>
+                        <li><a asp-area="" asp-controller="Diaries" asp-action="Create">New Entry</a></li>
                     }
                     @if (User.IsInRole("Vendor"))
                     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using jetsetterProj.Data;
+using JetSetterProject.Security;
 using JetSetterProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,7 @@ namespace JetSetterProject.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly Hasher hashTool = new Hasher();
         IConfiguration _configuration;
 
         public LoginController(ApplicationDbContext context, 
@@ -54,7 +56,12 @@ namespace JetSetterProject.Controllers
             // *ALWAYS* perform server side validation.
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
+                string salt = _configuration["Hashing:Salt"];
+                string pepper = _configuration["Hashing:Pepper"];
+
+                string hashedPassword = hashTool.CreateMD5(salt + thisModel.LoginVM.Password);
+
+                var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, pepper + hashedPassword, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -87,7 +94,11 @@ namespace JetSetterProject.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
+                string salt = _configuration["Hashing:Salt"];
+                string pepper = _configuration["Hashing:Pepper"];
+
+                string hashedPassword = hashTool.CreateMD5(salt + thisModel.RegisterVM.Password);
+                var result = await _userManager.CreateAsync(user, pepper + hashedPassword);
                 if (result.Succeeded)
                 {
 

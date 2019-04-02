@@ -4,83 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<main role="main">
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h2 class="jumbotron-heading">Details</h2>
-            <p class="lead text-muted">
-                A summary of you travel entries
-            </p>
+<h2>@Html.DisplayFor(model => model.Country)</h2>
+<hr />
+<div class="row">
+    <div class="jumbotron jumbotron-fluid" style="color: white; background-size: cover; background-position: center; background-image: url(@Html.DisplayFor(model => model.Image)">
+        <div class="container" style="background-color: rgba(255, 0, 0, 0.15); border-radius: 25px;">
+            <h1 class="display-4">@Html.DisplayFor(model => model.Country)</h1>
+            <h3>@Html.DisplayFor(model => model.City)</h3>
         </div>
-    </section>
-</main>
+    </div>
 
-
-<div class="album py-5 bg-light">
-    <div class="container text-center">
+    <div>
         <div class="row">
-            <h4 class="text-monospace">Diary</h4>
-            <hr />
-
-
-                <dl class="dl-horizontal d-flex flex-column">
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.ActualDate)
-                    </dt>
-                    <dd class="col-sm-9 ">
-                        @Html.DisplayFor(model => model.ActualDate)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.DateStamp)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.DateStamp)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.Tips)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Tips)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.DiaryEntry)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.DiaryEntry)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.Country)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Country)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.City)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.City)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.Private)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Private)
-                    </dd>
-                    <dt class="col-sm-3 badge badge-light">
-                        @Html.DisplayNameFor(model => model.Image)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Image)
-                    </dd>
-                </dl>
+            <div class="form-group col-xs-4">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" disabled />
+                <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-
-        <hr />
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.DiaryID" class="btn btn-primary" role="button">Edit</a>
-            <a asp-action="Index" class="btn btn-primary" role="button">Back to List</a>
-
+            <div class="form-group col-xs-4">
+                <label asp-for="City">City</label>
+                <input asp-for="City" class="form-control" placeholder="City" disabled>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group col-xs-4">
+                <label asp-for="DateStamp">Date</label>
+                <input asp-for="DateStamp" class="form-control" placeholder="Date" disabled>
+                <span asp-validation-for="DateStamp" class="text-danger"></span>
+            </div>
         </div>
 
+        <div class="form-group">
+            <label asp-for="DiaryEntry">Diary</label>
+            <textarea asp-for="DiaryEntry" type="text" class="form-control" rows="6" placeholder="Diary" disabled></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tips">Tips</label>
+            <textarea asp-for="Tips" type="text" class="form-control" rows="3" placeholder="Tips" disabled></textarea>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.DiaryID" class="btn btn-primary" role="button">Edit</a>
+        <a asp-action="Index" class="btn btn-primary" role="button">Back to List</a>
     </div>
 </div>

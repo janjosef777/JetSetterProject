@@ -1,0 +1,37 @@
+﻿@model IEnumerable<JetSetterProject.ViewModels.AllDiaryAdsVM>
+
+
+<h2>Home</h2>
+
+<h6>Advertisments</h6>
+<table>
+    <tbody>
+     @foreach (var ads in ViewBag.Ads)
+    {
+        <tr> <img width="200" src="@ads.AdImage"/> </tr>
+    }
+    </tbody>
+</table>
+<br />
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img src=@Html.DisplayFor(modelItem => item.DiaryImage)>
+                <div class="caption">
+                    <h3>@Html.DisplayFor(modelItem => item.Country)</h3>
+                    <h5>@Html.DisplayFor(modelItem => item.City)</h5>
+                    <p>@Html.DisplayFor(modelItem => item.Tips)</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+

@@ -24,9 +24,11 @@ namespace JetSetterProject.Controllers
         public IActionResult Index()
         {
             AllDiaryAdsRepo daRepo = new AllDiaryAdsRepo(db);
-            var es = daRepo.GetAllDiary();
-            var esList = es.ToList();
-            return View(es);
+            var diaryList = daRepo.GetAllDiary();
+            var adList = daRepo.GetAllAds();
+            ViewBag.Ads = adList.ToList();
+            var dList = diaryList.ToList();
+            return View(dList);
         }
     }
 }

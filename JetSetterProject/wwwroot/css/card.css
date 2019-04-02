@@ -14,17 +14,12 @@ a, a:visited {
     color: inherit;
 }
 
-html, body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 100%;
-    background: #e2e5eb;
-}
-
 .containerCard {
     padding: 0.5em 1em 1em;
     max-width: calc(1400px + 1em);
     margin: 0 auto;
     overflow: hidden;
+    font-family: 'Open Sans', sans-serif;
 }
 
     .containerCard .blog-posts .featured {
@@ -142,7 +137,7 @@ html, body {
                 font-weight: 300;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                font-size: 0.7rem;
+                font-size: 1rem;
                 line-height: 1.5;
                 margin-bottom: 0.5em;
                 font-family: 'Merriweather', sans-serif;

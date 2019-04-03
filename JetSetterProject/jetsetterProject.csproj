@@ -22,14 +22,5 @@
     <Folder Include="Seeder\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Views\VendorSignIn\ConfirmEmail.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\VendorSignIn\Create.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-
 
 </Project>

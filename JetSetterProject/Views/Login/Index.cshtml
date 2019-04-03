@@ -47,7 +47,7 @@
     <div class="col-md-4 col-md-offset-2">
         <h4>Login</h4>
         @ViewBag.LoginMessage
-                <br />
+        <br />
         @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { id = "loginForm" }))
         {
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -71,9 +71,22 @@
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-default" />
             </div>
+            <div>
+                <p>
+                    AdminAccount: <br /><br />
+                    bob@home.com <br /><br />
+                    Test Accounts for Travelers: <br /><br />
+                    customertest1@home.com<br />
+                    customertest2@home.com<br />
+                    customertest3@home.com<br /><br />
+                    password for all: P@ssw0rd!
+                </p>
+            </div>
+
         }
     </div>
-</div>
+ </div>
+
 
 <div>
     <a asp-action="Index" asp-controller="Home">Back to Home</a><br/>

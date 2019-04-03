@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using JetSetterProject.Models;
 using jetsetterProj.Data;
 using Microsoft.AspNetCore.Authorization;
+using JetSetterProject.Repositories;
+using System.Security.Claims;
 
 namespace JetSetterProject.Controllers
     //controller
@@ -23,10 +25,15 @@ namespace JetSetterProject.Controllers
         }
 
         // GET: Ads
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Ads.Include(a => a.Vendor);
-            return View(await applicationDbContext.ToListAsync());
+            AdsRepo adRepo = new AdsRepo(_context);
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var es = adRepo.GetAll(userId);
+            var esList = es.ToList();
+            return View(es);
+          //  var applicationDbContext = _context.Ads.Include(a => a.Vendor);
+          // return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Ads/Details/5

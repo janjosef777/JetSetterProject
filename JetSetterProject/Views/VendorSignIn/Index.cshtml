@@ -1,0 +1,166 @@
+﻿@model JetSetterProject.ViewModels.VendorSignInVM
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<h2>Sign In</h2>
+
+<hr />
+<div class="row">
+
+    <div class="col-md-4">
+        <h4>Register</h4>
+        @if ((ViewBag.ErrorMessage?.Count ?? 0) != 0)
+        {
+            @foreach (var error in ViewBag.ErrorMessage)
+            {
+                <p style="color:red;">@error</p>
+            }
+        }
+        @using (Html.BeginForm("Create", "VendorSignIn", FormMethod.Post, new { id = "registerForm" }))
+        {
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RegisterVM.Email"></label>
+                <input asp-for="RegisterVM.Email" class="form-control" required />
+                <span asp-validation-for="RegisterVM.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegisterVM.Password"></label>
+                <input asp-for="RegisterVM.Password" class="form-control" required />
+                <span asp-validation-for="RegisterVM.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegisterVM.ConfirmPassword"></label>
+                <input asp-for="RegisterVM.ConfirmPassword" class="form-control" required />
+                <span asp-validation-for="RegisterVM.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Name" class="control-label"></label>
+                <input asp-for="Vendor.Name" class="form-control" />
+                <span asp-validation-for="Vendor.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Address" class="control-label"></label>
+                <input asp-for="Vendor.Address" class="form-control" />
+                <span asp-validation-for="Vendor.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.City" class="control-label"></label>
+                <input asp-for="Vendor.City" class="form-control" />
+                <span asp-validation-for="Vendor.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Province" class="control-label"></label>
+                <input asp-for="Vendor.Province" class="form-control" />
+                <span asp-validation-for="Vendor.Province" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Vendor.Monthly" /> @Html.DisplayNameFor(model => model.Vendor.Monthly) ($4.99)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Vendor.Priority" /> @Html.DisplayNameFor(model => model.Vendor.Priority) (+$3.99)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Website" class="control-label"></label>
+                <input asp-for="Vendor.Website" class="form-control" />
+                <span asp-validation-for="Vendor.Website" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.PostalCode" class="control-label"></label>
+                <input asp-for="Vendor.PostalCode" class="form-control" />
+                <span asp-validation-for="Vendor.PostalCode" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-default">Register</button>
+            <div id="ReCaptchContainer"></div>
+            <br /><label id="lblMessage"></label><br />
+        }
+        <p>
+            <a asp-action="ForgotPassword" asp-controller="Login">Forgot your password?</a>
+        </p>
+    </div>
+    <div class="col-md-4 col-md-offset-2">
+        <h4>Login</h4>
+        @ViewBag.LoginMessage
+        <br />
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { id = "loginForm" }))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LoginVM.Email" class="control-label"></label>
+                <input asp-for="LoginVM.Email" class="form-control" required />
+                <span asp-validation-for="LoginVM.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginVM.Password" class="control-label"></label>
+                <input asp-for="LoginVM.Password" class="form-control" required />
+                <span asp-validation-for="LoginVM.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="LoginVM.RememberMe" /> @Html.DisplayNameFor(model => model.LoginVM.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-default" />
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Home">Back to Home</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit"
+        async defer>
+</script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+        asp-fallback-test="window.jQuery"
+        crossorigin="anonymous"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+</script>
+
+<script type="text/javascript">
+
+    var renderRecaptcha = function () {
+        grecaptcha.render('ReCaptchContainer', {
+            'sitekey':  '@ViewData["SiteKey"]',
+            theme:      'light',    //light or dark
+            type:       'image',    // image or audio
+            size:       'normal'    //normal or compact
+        });
+    };
+
+    // Check reCAPTCHA validation.
+    jQuery('button[type="button"]').click(function (e) {
+        var message = 'Please checck the checkbox';
+        if (typeof (grecaptcha) != 'undefined') {
+            var response = grecaptcha.getResponse();
+            (response.length === 0) ? (message = 'Captcha verification failed')
+                                    : (message = 'Success!');
+        }
+        jQuery('#lblMessage').html(message);
+        jQuery('#lblMessage').css('color',
+                              (message.toLowerCase() == 'success!') ? "green" : "red");
+    });
+
+</script>

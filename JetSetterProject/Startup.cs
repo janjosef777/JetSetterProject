@@ -68,8 +68,8 @@ namespace jetsetterProj
             services.AddTransient<IEmailSender, EmailService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-                options.Lockout.MaxFailedAccessAttempts = 3; // Lock after 3 consec failed logins
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.MaxFailedAccessAttempts = 5; // Lock after 3 consec failed logins
                 options.Lockout.AllowedForNewUsers = true;
 
                 // User settings

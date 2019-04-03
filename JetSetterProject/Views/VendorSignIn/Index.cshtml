@@ -1,4 +1,4 @@
-﻿@model JetSetterProject.ViewModels.SignInVM
+﻿@model JetSetterProject.ViewModels.VendorSignInVM
 
 @{
     ViewData["Title"] = "Sign In";
@@ -18,7 +18,7 @@
                 <p style="color:red;">@error</p>
             }
         }
-        @using (Html.BeginForm("Create", "Login", FormMethod.Post, new { id = "registerForm" }))
+        @using (Html.BeginForm("Create", "VendorSignIn", FormMethod.Post, new { id = "registerForm" }))
         {
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -36,6 +36,51 @@
                 <input asp-for="RegisterVM.ConfirmPassword" class="form-control" required />
                 <span asp-validation-for="RegisterVM.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Name" class="control-label"></label>
+                <input asp-for="Vendor.Name" class="form-control" />
+                <span asp-validation-for="Vendor.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Address" class="control-label"></label>
+                <input asp-for="Vendor.Address" class="form-control" />
+                <span asp-validation-for="Vendor.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.City" class="control-label"></label>
+                <input asp-for="Vendor.City" class="form-control" />
+                <span asp-validation-for="Vendor.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Province" class="control-label"></label>
+                <input asp-for="Vendor.Province" class="form-control" />
+                <span asp-validation-for="Vendor.Province" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Vendor.Monthly" /> @Html.DisplayNameFor(model => model.Vendor.Monthly) ($4.99)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Vendor.Priority" /> @Html.DisplayNameFor(model => model.Vendor.Priority) (+$3.99)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.Website" class="control-label"></label>
+                <input asp-for="Vendor.Website" class="form-control" />
+                <span asp-validation-for="Vendor.Website" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vendor.PostalCode" class="control-label"></label>
+                <input asp-for="Vendor.PostalCode" class="form-control" />
+                <span asp-validation-for="Vendor.PostalCode" class="text-danger"></span>
+            </div>
+
             <button type="submit" class="btn btn-default">Register</button>
             <div id="ReCaptchContainer"></div>
             <br /><label id="lblMessage"></label><br />
@@ -47,7 +92,7 @@
     <div class="col-md-4 col-md-offset-2">
         <h4>Login</h4>
         @ViewBag.LoginMessage
-                <br />
+        <br />
         @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { id = "loginForm" }))
         {
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -76,8 +121,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-controller="Home">Back to Home</a><br/>
-    <a href="https://docs.google.com/document/d/1DqwoHiMSRCGmCGOlS-8DZWcLb2IiTkZmVzzupkww7Uc/edit">One Stop Shop</a>
+    <a asp-action="Index" asp-controller="Home">Back to Home</a>
 </div>
 
 @section Scripts {
@@ -118,4 +162,5 @@
         jQuery('#lblMessage').css('color',
                               (message.toLowerCase() == 'success!') ? "green" : "red");
     });
+
 </script>

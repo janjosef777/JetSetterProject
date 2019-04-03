@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using jetsetterProj.Data;
+using JetSetterProject.Models;
+using JetSetterProject.Repositories;
+using JetSetterProject.Security;
+using JetSetterProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
+
+
+namespace JetSetterProject.Controllers
+{
+    public class VendorSignInController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly Hasher hashTool = new Hasher();
+        private IServiceProvider _serviceProvider;
+
+        IConfiguration _configuration;
+
+        public VendorSignInController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            IConfiguration configuration,
+            IServiceProvider serviceProvider)
+        {
+            _userManager = userManager;
+            _context = context;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _configuration = configuration;
+            _serviceProvider = serviceProvider;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(VendorSignInVM thisModel)
+        {
+            System.Threading.Thread.Sleep(2000);
+            ViewBag.LoginMessage = "";
+
+            // ModelState.IsValid performs server side validation.
+            // *ALWAYS* perform server side validation.
+            if (ModelState.IsValid)
+            {
+
+                var result = await _signInManager.PasswordSignInAsync(thisModel.LoginVM.Email, thisModel.LoginVM.Password, thisModel.LoginVM.RememberMe, lockoutOnFailure: true);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "AllDiaryAds");
+                }
+                else if (result.IsLockedOut)
+                {
+                    ViewBag.LoginMessage = "Login attempt locked out.";
+                    return View("Index", thisModel);
+                }
+                else if (result.IsNotAllowed)
+                {
+                    ViewBag.LoginMessage = "Please confirm your email before logging in.";
+                    return View("Index", thisModel);
+                }
+                ViewBag.LoginMessage = "Invalid user name or password.";
+                return View("Index", thisModel);
+            }
+            else
+                ViewBag.LoginMessage = "This entry is invalid.";
+            // return view with errors
+            return View("Index", thisModel);
+        }
+
+        [ValidateRecaptcha]
+        [HttpPost]
+        public async Task<IActionResult> Create(VendorSignInVM thisModel)
+        {
+            UserRoleRepo userRoleRepo = new UserRoleRepo(_serviceProvider);
+
+            System.Threading.Thread.Sleep(2000);
+            var user = new ApplicationUser { UserName = thisModel.RegisterVM.Email, Email = thisModel.RegisterVM.Email };
+            var vendorUser = new Vendor { Name = thisModel.Vendor.Name, Address = thisModel.Vendor.Address, City = thisModel.Vendor.City, Province = thisModel.Vendor.Province, Monthly = thisModel.Vendor.Monthly, Priority = thisModel.Vendor.Priority, Website = thisModel.Vendor.Website, PostalCode = thisModel.Vendor.PostalCode };
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.CreateAsync(user, thisModel.RegisterVM.Password);
+                if (result.Succeeded)
+                {
+                    var userID = user.Id;
+                    vendorUser.UserID = userID;
+                    _context.Add(vendorUser);
+                    await _context.SaveChangesAsync();
+
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var callbackUrl = Url.Link("Default", new { Controller = "Login", Action = "ConfirmEmail", userId = user.Id, code = code });
+
+                    await _emailSender.SendEmailAsync(thisModel.RegisterVM.Email, "Confirm your email",
+                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    // here we assign the new user the "Vendor" role 
+                    await _userManager.AddToRoleAsync(user, "Vendor");
+
+                    ViewBag.Email = thisModel.RegisterVM.Email;
+                    return View("Create", thisModel);
+                }
+                var errorList = new List<string>();
+                foreach (var errors in result.Errors)
+                {
+                    errorList.Add(errors.Description);
+                }
+                ViewBag.ErrorMessage = errorList;
+                // Reset the site key if there is an error.
+                ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
+                return View("Index", thisModel);
+            }
+            else
+                ViewData["SiteKey"] = _configuration["Authentication:Recaptcha:SiteKey"];
+            return View("Index", thisModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
+            }
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return View();
+        }
+
+    }
+}

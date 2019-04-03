@@ -23,7 +23,6 @@ namespace JetSetterProject.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly Hasher hashTool = new Hasher();
         IConfiguration _configuration;
 
         public LoginController(ApplicationDbContext context, 

@@ -63,7 +63,7 @@ namespace JetSetterProject.Controllers
                 }
                 else if (result.IsLockedOut)
                 {
-                    ViewBag.LoginMessage = "Login attempt locked out.";
+                    ViewBag.LoginMessage = "Login attempt locked out for the next 10 minutes.";
                     return View("Index", thisModel);
                 }
                 else if (result.IsNotAllowed)

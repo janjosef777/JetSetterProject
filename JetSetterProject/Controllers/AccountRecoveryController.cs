@@ -69,5 +69,48 @@ namespace JetSetterProject.Controllers
             }
             return View("ForgotPassword");
         }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                return BadRequest("A code must be supplied for password reset.");
+            }
+            else
+            {
+                ResetPasswordVM model = new ResetPasswordVM { Code = code };
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM thisModel)
+        {
+            System.Threading.Thread.Sleep(2000);
+            ViewBag.Message = "";
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(thisModel.Email);
+                if (user == null)
+                {
+                    // Don't reveal that the user does not exist
+                    return View("ResetConfirm");
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, thisModel.Code, thisModel.Password);
+                if (result.Succeeded)
+                {
+                    return View("ResetConfirm");
+                }
+                var errorList = new List<string>();
+                foreach (var errors in result.Errors)
+                {
+                    errorList.Add(errors.Description);
+                }
+                ViewBag.ErrorMessage = errorList;
+            }
+            return View(thisModel);
+        }
     }
 }

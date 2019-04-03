@@ -23,7 +23,6 @@ namespace JetSetterProject.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly Hasher hashTool = new Hasher();
         IConfiguration _configuration;
 
         public LoginController(ApplicationDbContext context, 
@@ -64,7 +63,7 @@ namespace JetSetterProject.Controllers
                 }
                 else if (result.IsLockedOut)
                 {
-                    ViewBag.LoginMessage = "Login attempt locked out.";
+                    ViewBag.LoginMessage = "Login attempt locked out for the next 10 minutes.";
                     return View("Index", thisModel);
                 }
                 else if (result.IsNotAllowed)

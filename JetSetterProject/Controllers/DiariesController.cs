@@ -96,7 +96,9 @@ namespace JetSetterProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", diary.UserID);
+            ViewData["UserID"] = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ViewData["DiaryID"] = id;
+
             return View(diary);
         }
 

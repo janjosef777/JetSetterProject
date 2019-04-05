@@ -82,7 +82,8 @@ namespace JetSetterProject.Controllers
         // GET: Ads/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            
+             if (id == null)
             {
                 return NotFound();
             }

@@ -34,5 +34,12 @@ namespace JetSetterProject.Repositories
 
             return esList;
         }
+
+        public int getVendorID(string userID)
+        {
+            Vendor vendor = (db.Vendors.Where(ve => ve.UserID == userID)).FirstOrDefault();
+            return vendor.VendorID;
+
+        }
     }
 }

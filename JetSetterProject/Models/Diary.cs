@@ -32,6 +32,6 @@ namespace jetsetterProj.Models
 
         // Pointing to parent.
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
+    
     }
 }

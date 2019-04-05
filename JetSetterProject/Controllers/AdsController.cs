@@ -58,7 +58,10 @@ namespace JetSetterProject.Controllers
         // GET: Ads/Create
         public IActionResult Create()
         {
-            ViewData["VendorID"] = new SelectList(_context.Vendors, "VendorID", "VendorID");
+            AdsRepo adRepo = new AdsRepo(_context);
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewData["VendorID"] = adRepo.getVendorID(userId);
             return View();
         }
 
@@ -82,6 +85,10 @@ namespace JetSetterProject.Controllers
         // GET: Ads/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            AdsRepo adRepo = new AdsRepo(_context);
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewData["VendorID"] = adRepo.getVendorID(userId);
             if (id == null)
             {
                 return NotFound();
@@ -92,7 +99,6 @@ namespace JetSetterProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["VendorID"] = new SelectList(_context.Vendors, "VendorID", "VendorID", ad.VendorID);
             return View(ad);
         }
 

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "API";
+}
+
+<h2>Using our API</h2>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <p>We offer a Diary API that shows public entries of our user's diaries. An example of the API in use is shown below: </p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                <pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">                var</span> url <span style="color: #333333">= </span><span style="background-color: #fff0f0">&#39;https://jetsetterproject2019.azurewebsites.net/api/DiaryAPI&#39;</span>
+                <span style="color: #008800; font-weight: bold">var</span> req <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Request(url);
+
+                fetch(req)
+                .then(<span style="color: #008800; font-weight: bold">function</span>(response) {
+                        response.json().then(function (post) {
+                            console.log(post);
+                        })
+                })
+</pre>
+        </div>
+
+
+        <p>This returns a JSON object as an array, which we can iterate over: </p>
+
+        <div id="exampleID" style="max-height:400px; overflow-y: scroll;">
+            <ul id="exampleUL" style="margin: 0 0 0 2em; padding: 0; list-style: none;">
+            </ul>
+        </div>
+    </div>
+</div>
+@section Scripts
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var url = 'https://jetsetterproject2019.azurewebsites.net/api/DiaryAPI'
+
+                var req = new Request(url);
+
+                fetch(req)
+                    .then(function (response) {
+                        response.json().then(function (post) {
+                            for (var i = 0; i < Object.keys(post).length; i++) {
+                                console.log(post[i]);
+                                $("<li> { <br /> <strong>diaryID:</strong> <p style='color:green'>" + post[i].diaryID + "</p></li>" +
+                                    "<li> <strong>userID:</strong><p style='color:green'> " + post[i].userID + "</p></li>" +
+                                    "<li> <strong>dateStamp:</strong><p style='color:green'> " + post[i].dateStamp + "</p></li>" +
+                                    "<li> <strong>tips:</strong> <p style='color:green'>" + post[i].tips + "</p></li>" +
+                                    "<li> <strong>diaryEntry:</strong> <p style='color:green'>" + post[i].diaryEntry + "</p></li>" +
+                                    "<li> <strong>country:</strong> <p style='color:green'>" + post[i].country + "</p></li>" +
+                                    "<li> <strong>city:</strong> <p style='color:green'>" + post[i].city + "</p></li>" +
+                                    "<li> <strong>image:</strong> <p style='color:green'>" + post[i].image + "</p>  }, <br /> <li>"
+                                ).appendTo("#exampleUL");
+                            }
+                        });
+                    })
+            })
+        </script>
+        }

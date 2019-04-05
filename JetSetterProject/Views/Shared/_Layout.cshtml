@@ -51,11 +51,11 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Diaries" asp-action="API">API</a></li>
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
+                        <li><a asp-area="" asp-controller="Diaries" asp-action="API">API</a></li>
                         <li><a asp-area="" asp-controller="Diaries" asp-action="Index">Diary</a></li>
                         <li><a asp-area="" asp-controller="Ads" asp-action="Index">Ads</a></li>
                         <li><a asp-area="" asp-controller="Vendors" asp-action="Index">Vendors</a></li>
@@ -75,7 +75,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; TEST BUILD APRIL 03, 2019 - jetsetterProj</p><a asp-controller="Documentation" asp-action="Index"> Documentation</a>
+            <p>&copy; FINAL BUILD APRIL 05, 2019 - jetsetterProj</p><a asp-controller="Documentation" asp-action="Index">Documentation</a>
         </footer>
     </div>
 

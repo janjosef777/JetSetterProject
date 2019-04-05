@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using jetsetterProj.Data;
 using jetsetterProj.Models;
+using JetSetterProject.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,17 +22,34 @@ namespace JetSetterProject.Controllers
         }
         // GET: api/DiaryApi
         [HttpGet]
-        public IEnumerable<Diary> Get()
+        public IEnumerable<DiaryAPIVM> Get()
         {
-            return _context.Diaries.Where(x => x.Private != true).ToList();
+            var diaries = from d in _context.Diaries
+                          where d.Private != true
+                          select new DiaryAPIVM {
+                              DiaryID = d.DiaryID, DateStamp = d.DateStamp,
+                              Tips = d.Tips, DiaryEntry = d.DiaryEntry,
+                              Country = d.Country, Image = d.Image
+                          };
+            return diaries;
         }
 
         // GET: api/DiaryApi/5
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
-            var item = _context.Diaries.FirstOrDefault(t => t.DiaryID == id);
-            if (item == null || item.Private == true)
+            var item = from d in _context.Diaries
+                       where d.Private != true && d.DiaryID == id
+                       select new DiaryAPIVM
+                       {
+                           DiaryID = d.DiaryID,
+                           DateStamp = d.DateStamp,
+                           Tips = d.Tips,
+                           DiaryEntry = d.DiaryEntry,
+                           Country = d.Country,
+                           Image = d.Image
+                       };
+            if (item == null)
             {
                 return NotFound();
             }

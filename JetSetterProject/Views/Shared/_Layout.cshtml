@@ -51,8 +51,8 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li><a asp-area="" asp-controller="Diaries" asp-action="API">API</a></li>
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
-
                     }
                     @if (User.IsInRole("Admin"))
                     {

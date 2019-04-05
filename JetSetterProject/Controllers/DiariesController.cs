@@ -38,6 +38,11 @@ namespace JetSetterProject.Controllers
            // return View(await applicationDbContext.ToListAsync());
         }
 
+        public IActionResult API()
+        {
+            return View();
+        }
+
         // GET: Diaries/Details/5
         public async Task<IActionResult> Details(int? id)
         {
